@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Authentication System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center">
+    <div class="col-lg-10">
+        <div class="card shadow-lg border-0 rounded-lg mt-3">
+            <div class="card-body p-5">
+                <div class="text-center">
+                    <h1 class="display-4 mb-4">Welcome to Authentication System</h1>
+                    <p class="lead mb-5">A secure, modern, and responsive authentication system built with Django.</p>
+                </div>
+                
+                <div class="row g-4 py-3">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-left-primary">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <i class="fas fa-lock fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                    <h4 class="mb-3">Secure Login</h4>
+                                    <p>Our authentication system provides a secure login process with password hashing and protection against common vulnerabilities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-left-success">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <i class="fas fa-user-plus fa-3x mb-3" style="color: var(--secondary-color);"></i>
+                                    <h4 class="mb-3">Easy Registration</h4>
+                                    <p>Creating an account is simple and straightforward. Just fill in a few details and you're ready to go.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-left-warning">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <i class="fas fa-id-card fa-3x mb-3" style="color: var(--accent-color);"></i>
+                                    <h4 class="mb-3">User Profiles</h4>
+                                    <p>Manage your personal profile, update your information, and customize your experience.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="btn btn-primary btn-lg me-2">
+                            <i class="fas fa-id-card me-2"></i>View Profile
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                        <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

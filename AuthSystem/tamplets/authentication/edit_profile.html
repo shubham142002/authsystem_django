@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - Authentication System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-lg border-0 rounded-lg mt-4">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>Edit Profile</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3 text-center mb-4 mb-md-0">
+                            {% if user.profile.profile_picture %}
+                                <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}" class="profile-img mb-3">
+                            {% else %}
+                                <img src="/media/profile_pics/default.png" alt="{{ user.username }}" class="profile-img mb-3">
+                            {% endif %}
+                            <div>
+                                <label for="id_profile_picture" class="btn btn-outline-primary">
+                                    <i class="fas fa-upload me-2"></i>Change Photo
+                                </label>
+                                {{ profile_form.profile_picture }}
+                                <div class="form-text">Upload a new profile picture</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-9">
+                            <h5 class="mb-3">Personal Information</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_first_name" class="form-label">First Name</label>
+                                    {{ user_form.first_name }}
+                                    {% if user_form.first_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ user_form.first_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_last_name" class="form-label">Last Name</label>
+                                    {{ user_form.last_name }}
+                                    {% if user_form.last_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ user_form.last_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_email" class="form-label">Email Address</label>
+                                {{ user_form.email }}
+                                {% if user_form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ user_form.email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_phone_number" class="form-label">Phone Number</label>
+                                {{ profile_form.phone_number }}
+                                {% if profile_form.phone_number.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ profile_form.phone_number.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_date_of_birth" class="form-label">Date of Birth</label>
+                                {{ profile_form.date_of_birth }}
+                                {% if profile_form.date_of_birth.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ profile_form.date_of_birth.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="mb-3">
+                        <label for="id_bio" class="form-label">Bio</label>
+                        {{ profile_form.bio }}
+                        {% if profile_form.bio.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ profile_form.bio.errors }}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Tell us about yourself</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Hide the file input and show only the button
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_profile_picture');
+        if (fileInput) {
+            fileInput.style.opacity = 0;
+            fileInput.style.position = 'absolute';
+            fileInput.style.pointerEvents = 'none';
+            fileInput.style.width = '1px';
+            fileInput.style.height = '1px';
+            
+            const fileLabel = document.querySelector('label[for="id_profile_picture"]');
+            if (fileLabel) {
+                fileLabel.addEventListener('click', function() {
+                    fileInput.click();
+                });
+            }
+            
+            fileInput.addEventListener('change', function() {
+                const fileName = this.files[0]?.name;
+                if (fileName) {
+                    const feedbackElem = document.querySelector('label[for="id_profile_picture"] + .form-text');
+                    if (feedbackElem) {
+                        feedbackElem.textContent = `Selected: ${fileName}`;
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %} 
